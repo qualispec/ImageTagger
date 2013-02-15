@@ -1,0 +1,53 @@
+.image {
+  background-image: url("x-men.jpg");
+  width: 1280px;
+  height: 1084px;
+}
+
+.toggle {
+  width: 100px;
+  height: 40px;
+  border-radius: 10px;
+}
+
+.tag, .pretag {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  border: 5px solid red;
+  border-radius: 20px;
+  color: yellow;
+  text-align: center;
+  font-size: 30px;
+}
+
+.pretag {
+  position: relative;
+  float: left;
+}
+
+.listOption {
+  padding: 5px;
+  width: 90px;
+  height: 20px;
+  float: left;
+  border: 2px solid red;
+  text-align: center;
+  cursor: pointer;
+  background: white;
+}
+
+.listOption:hover {
+  border: 2px solid blue;
+}
+
+.clickContainer {
+  position: absolute;
+  display: none;
+  width: 265px;
+}
+
+.listContainer {
+  width: 100px;
+  float: right;
+}
