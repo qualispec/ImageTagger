@@ -47,16 +47,25 @@
 .clickContainer {
   position: absolute;
   display: none;
-  width: 220px;
+  width: 120px;
 }
 
 .listContainer {
   width: 100px;
-  float: right;
+  float: left;
+  position: relative;
+  left: 110px;
+  top: -134px;
 }
 
 .name {
   position: relative;
   top: 110px;
   background: white;
+}
+
+#tag-input{
+  width: 100px;
+  padding: 3px;
+  border: 1px solid black;
 }

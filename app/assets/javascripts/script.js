@@ -1,80 +1,83 @@
 tagOptions = [ "Wolverine", "Cyclops", "Colossus", "Storm", "Rogue", "Iceman",
                "Gambit", "Cable" ];
 
-// This is the tagControllerMaker -- pass in the element to bind it to
 function pickTagController (element) {
-  // here is the actual object being built
   var clicksController = {
-    // initialize the object with a undefined image
     image: undefined,
 
-    //this is the bind function of the object, which passes in the image
-    // object (as a jquery object)
-    // is called near the end of the maker function
     bind: function (image) {
 
-      // sets the object's image to the passed in image
       this.image = $(image);
-      // creates the event handler to be bound to this specific
-      // photo that was passed in.
       this.image.click(this.handleClick.bind(this));
     },
 
-    // this is the event handler, receives an event
-    // still don't know how it receives an event
     handleClick: function (event) {
-      // sets the variable rel position based on the click event
       var relPos = {
         x: (event.pageX - 52),
         y: (event.pageY - 52)
       };
 
-      // passes the positions to addTagList
       this.addTagList(relPos);
     },
 
-    // takes a position object
     addTagList: function (pos) {
-      // selects clickContainer
+      var that = this;
       $(".clickContainer")
-        // displays the clickContainer, which was already in the DOM
-        // but was hidden
         .show()
-        // sets the css to position the container
         .css("left", pos.x)
         .css("top", pos.y)
-        // sets the html in it to nothing
         .empty();
 
-      // this appends the tag square (adds the pretag)
       $(".clickContainer").append(
-        // creating a div wrapped in a jquery object
         $("<div></div>")
-          // add the class of pretag in order to style it
           .addClass("pretag")
       );
 
-      // selects the click container again in order to append a new div for the
-      //listcontainer
       $(".clickContainer").append(
-        // creates a new div wrapped in a jquery object
         $("<div></div>")
-          // add class to give styling
           .addClass("listContainer")
       );
 
-      // this goes through all of the tags that exist and adds the
-      // tag names to the tag box
-      $(tagOptions).each( function() {
-        // append a list option div to each of the list container
-        $(".listContainer").append(
-          $("<div>" + this + "</div>")
-            .addClass("listOption")
+      $(".clickContainer").prepend(
+        $('<input id="tag-input" type="text">')
         );
-      });
 
-      $(".listOption").click(this.listOptionClick);
+      // $(tagOptions).each( function() {
+      //   $(".listContainer").append(
+      //     $("<div>" + this + "</div>")
+      //       .addClass("listOption")
+      //   );
+      // });
+
+      // $(".listOption").click(this.listOptionClick);
+      $(".listContainer").on("click", ".listOption", this.listOptionClick);
+
+      // $("#tag-input").keypress(function(){console.log($(this).val())});
+      $("#tag-input").keyup(this.autoCompleteHandler);
+
     },
+
+    autoCompleteHandler: function(event) {
+
+      string = $(this).val().toLowerCase();
+      tagOptions = tagOptions.sort();
+
+      if (string.length == 0) {
+        $('.listContainer').empty();
+      } else {
+        $('.listContainer').empty();
+
+        for(var i in tagOptions) {
+          if (tagOptions[i].toLowerCase().match(string)) {
+            $(".listContainer").append(
+            $("<div>" + tagOptions[i] + "</div>")
+              .addClass("listOption")
+            ) };
+        }
+      };
+    },
+
+
 
     listOptionClick: function(event) {
       console.log("Tag Inserted");
@@ -139,7 +142,6 @@ $(function () {
 
   pickTagController(image);
 
-  // add existing stored tags
   toggleListener($(".toggle"));
   IT.Tag.fetchAll(render);
 
@@ -212,46 +214,6 @@ function render() {
     );
   });
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
